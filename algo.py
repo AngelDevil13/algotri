@@ -38,11 +38,13 @@ def selectMin(list):
 
 def triSelect(list):
     result=[]
-    while len(list)>0:
-        var=selectMin(list)
-        for x in range(list.count(var)):
+    myList=[]
+    myList.extend(list)
+    while len(myList)>0:
+        var=selectMin(myList)
+        for x in range(myList.count(var)):
             result.append(var)
-            list.remove(var)
+            myList.remove(var)
         
     return result
 

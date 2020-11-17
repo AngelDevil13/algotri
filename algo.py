@@ -36,7 +36,7 @@ def selectMin(list):
             var=i
     return var
 
-def triSelect (list):
+def triSelect(list):
     result=[]
     while len(list)>0:
         var=selectMin(list)
@@ -46,5 +46,48 @@ def triSelect (list):
         
     return result
 
+def fusion(u,d):
+    
+    select=[]
+    
+    while len(u) > 0 or len(d) > 0:
+        
+        if len(u) > 0:
+            
+            if len(d) > 0:
+                if(u[0]<d[0]):
+                    select.append(u[0])
+                    u.pop(0)
+                else:
+                    select.append(d[0])
+                    d.pop(0)
+            else:
+                select.append(u[0])
+                u.pop(0)
+        else:
+            select.append(d[0])
+            d.pop(0)
+    
+    return select
+    
+def triFusion(list):
+    
+    if len(list)>1:
+        
+        half=len(list)//2
+        
+        list0=list[0:half]
+        list1=list[half:len(list)]
+        
+        list0trie=triFusion(list0)
+        list1trie=triFusion(list1)
+        Yo=fusion(list0trie,list1trie)
+        return Yo
+        
+    else:
+        return list
+
+
 print(selectMin([4,2,7,8]))
 print(triSelect([4,2,7,8]))
+print(triFusion([4,2,7,8]))

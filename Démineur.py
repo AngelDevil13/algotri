@@ -1,8 +1,8 @@
 import random
 
 Colone = []
-ColoneNum = 5
-LineNum = 5
+ColoneNum = 10
+LineNum = ColoneNum
 Linehidden = []
 displayFULL = []
 staticNum = 0
@@ -15,7 +15,6 @@ STOP = 0
 
 def initial():
     Okay = []
-    
     for x in range(ColoneNum):
         choice = random.randint(0, 10)
         if choice == 0:
@@ -23,24 +22,16 @@ def initial():
         else:
             Okay.append(0)
     return Okay
-while Colone.count(1)<1:
+    
+while Colone.count(1)<1 or Colone.count(0)<1:
     for y in range(LineNum):
         Linehidden = initial()
         for u in range(ColoneNum):
             displayGUI.append(0)
         Colone.extend(Linehidden)
+    if(Colone.count(1)<1 or Colone.count(0)<1):
+        Colone.clear()
 
-print(Colone.count(1))
-
-#-------------------Delete this when it's done v
-for z in range(ColoneNum):
-    variableNum=variableNum+ColoneNum
-    displayFULL.extend(Colone[staticNum:variableNum])
-    staticNum=variableNum
-    print(displayFULL)
-    displayFULL.clear()
-print("------------------------------------------")
-#-------------------Delete this when it's done ^
 def bomb(Loca):
     result = Colone[Loca]
     return result
@@ -48,25 +39,64 @@ def bomb(Loca):
 def proximity(var):
     Valid = 0
     final = 0
-    if (var-(ColoneNum+1))>=0:
-        final = final+bomb(var-(ColoneNum+1))
-    if (var-ColoneNum)>=0:
-        final = final+bomb(var-ColoneNum)
-    if (var-(ColoneNum-1))>=0:
-        final = final+bomb(var-(ColoneNum-1))
-    if (var+1)<(ColoneNum*LineNum):
+    limitmin = 0
+    limitmax = 0
+    
+    while (limitmax-1)<var:
+        limitmax=limitmax+LineNum
+        
+    limitmax=limitmax-1
+        
+    if limitmax<1:
+        limitmax=limitmax+LineNum
+        
+    if limitmax>(ColoneNum*LineNum):
+        limitmax=limitmax-LineNum
+    
+    limitmin=limitmax-(LineNum-1)
+    
+    if limitmin<0:
+        limitmin=0
+    
+    
+    if (var+1)<=limitmax:#droite
         final = final+bomb(var+1)
-    if (var+(ColoneNum-1))<(ColoneNum*LineNum):
-        final = final+bomb(var+(ColoneNum-1))
-    if (var+ColoneNum)<(ColoneNum*LineNum):
-        final = final+bomb(var+ColoneNum)
-    if (var+(ColoneNum+1))<(ColoneNum*LineNum):
-        final = final+bomb(var+(ColoneNum+1))
-    if (var-1)>=0:
+        
+    if (var-1)>=limitmin:#gauche
         final = final+bomb(var-1)
+        
+    limitminDOWN = limitmin-(ColoneNum)
+    if(limitminDOWN<0):
+        limitminDOWN = 0
+        
+    if (var-ColoneNum)>=limitminDOWN and (var-ColoneNum)<=(limitminDOWN+LineNum):#en haut
+        final = final+bomb(var-ColoneNum)
+        
+        if (var-(ColoneNum+1))>=limitminDOWN and (var-(ColoneNum+1))<=(limitminDOWN+(LineNum-1)):#diagonale gauche haut
+            final = final+bomb(var-(ColoneNum+1))
+        
+        if (var-(ColoneNum-1))>=limitminDOWN and (var-(ColoneNum-1))<=(limitminDOWN+(LineNum-1)):#digonale droite haut
+            final = final+bomb(var-(ColoneNum-1))
+        
+        
+    limitmaxUP = limitmax+(ColoneNum)
+    if(limitmaxUP>((ColoneNum*LineNum)-1)):
+        limitmaxUP = (ColoneNum*LineNum)-1
+        
+        
+        
+    if (var+ColoneNum)<=limitmaxUP and (var+ColoneNum)>=(limitmaxUP-ColoneNum):#en bas
+        final = final+bomb(var+ColoneNum)
+        
+        if (var+(ColoneNum-1))<=limitmaxUP and (var+(ColoneNum-1))>=(limitmaxUP-(ColoneNum-1)):#diagonale gauche bas
+            final = final+bomb(var+(ColoneNum-1))
+        
+        if (var+(ColoneNum+1))<=limitmaxUP and (var+(ColoneNum+1))>=(limitmaxUP-(ColoneNum-1)):#diagonale droite bas
+            final = final+bomb(var+(ColoneNum+1))
+        
     return final
 
-def DisplayGUI():
+def DisplayGUI(MOO):
     for w in range(ColoneNum):
         Position=ColoneNum*w
         print(end="[")
@@ -77,13 +107,12 @@ def DisplayGUI():
             
             SHOWING=displayGUI[Position]
             
-            
             if SHOWING == 0:
                 print(end="*")
             else:
                 if STATE==1:
-                    STOP = 1
                     print(end='X')
+                    MOO = 1
                 else:
                     MEH=proximity(Position)
                     print(MEH,end="")
@@ -92,16 +121,33 @@ def DisplayGUI():
             Position=Position-(v)
         print("]")
         
+    if(MOO==1):
+        LOL=1
+    else:
+        LOL=0
+    return LOL
+        
 #-----------How to display something ? v
 def DisplayONE(Num):
     displayGUI.pop(Num)
     displayGUI.insert(Num,1)
 #-----------How to display something ? ^
 
-def Turn():
+def TEST(OK):
+    NO=0
+    if(OK==0):
+        for u in range(len(Colone)):
+            if(displayGUI[u]==Colone[(u)]):
+                NO=1
+        if(NO==0):
+            OK=2
+    return OK
+
+def Turn(ORA):
     print("------------------------------------------")
-    DisplayGUI()
+    ORA=DisplayGUI(ORA)
     print()
+    return ORA
 
 def invalid():
     print()
@@ -109,7 +155,7 @@ def invalid():
     print()
     print()
 
-DisplayGUI()
+DisplayGUI(STOP)
 
 #Add an entry
 print("------------------------------------------")
@@ -135,7 +181,7 @@ while STOP==0:
         
         ENTRY=(ENTRYUno-1)*ColoneNum+(ENTRYDos-1)
         
-        if ENTRY > 0:
+        if ENTRY > -1:
             if ENTRY <= (ColoneNum*LineNum):
                 YES=1
             else:
@@ -144,7 +190,16 @@ while STOP==0:
             invalid()
             
     DisplayONE(ENTRY)
-    Turn()
-    print(STOP)
+    STOP=Turn(STOP)
+    STOP=TEST(STOP)
 
+
+if STOP==1:
+    print("YOU LOSE !")
+else:
+    print("CONGRATULATION !")
+    print("YOU HAVE WON !")
+    
+print()
+print()
 print("GAME OVER")

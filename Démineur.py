@@ -1,8 +1,8 @@
 import random
 
 Colone = []
-ColoneNum = 10
-LineNum = ColoneNum
+ColoneNum = 0
+LineNum = 0
 Linehidden = []
 displayFULL = []
 staticNum = 0
@@ -12,6 +12,12 @@ SHOWING = 0
 Position = 0
 STATE = 0
 STOP = 0
+
+print("Enter the horizontal perimeter value of your choice :")
+LineNum=int(input())
+
+print("Enter the vertical perimeter value of your choice :")
+ColoneNum=int(input())
 
 def initial():
     Okay = []
@@ -65,40 +71,40 @@ def proximity(var):
     if (var-1)>=limitmin:#gauche
         final = final+bomb(var-1)
         
-    limitminDOWN = limitmin-(ColoneNum)
+    limitminDOWN = limitmin-(LineNum)
     if(limitminDOWN<0):
         limitminDOWN = 0
         
-    if (var-ColoneNum)>=limitminDOWN and (var-ColoneNum)<=(limitminDOWN+LineNum):#en haut
-        final = final+bomb(var-ColoneNum)
+    if (var-LineNum)>=limitminDOWN and (var-LineNum)<=(limitminDOWN+LineNum):#en haut
+        final = final+bomb(var-LineNum)
         
-        if (var-(ColoneNum+1))>=limitminDOWN and (var-(ColoneNum+1))<=(limitminDOWN+(LineNum-1)):#diagonale gauche haut
-            final = final+bomb(var-(ColoneNum+1))
+        if (var-(LineNum+1))>=limitminDOWN and (var-(LineNum+1))<=(limitminDOWN+(LineNum-1)):#diagonale gauche haut
+            final = final+bomb(var-(LineNum+1))
         
-        if (var-(ColoneNum-1))>=limitminDOWN and (var-(ColoneNum-1))<=(limitminDOWN+(LineNum-1)):#digonale droite haut
-            final = final+bomb(var-(ColoneNum-1))
+        if (var-(LineNum-1))>=limitminDOWN and (var-(LineNum-1))<=(limitminDOWN+(LineNum-1)):#digonale droite haut
+            final = final+bomb(var-(LineNum-1))
         
         
-    limitmaxUP = limitmax+(ColoneNum)
+    limitmaxUP = limitmax+(LineNum)
     if(limitmaxUP>((ColoneNum*LineNum)-1)):
         limitmaxUP = (ColoneNum*LineNum)-1
         
         
         
-    if (var+ColoneNum)<=limitmaxUP and (var+ColoneNum)>=(limitmaxUP-ColoneNum):#en bas
-        final = final+bomb(var+ColoneNum)
+    if (var+LineNum)<=limitmaxUP and (var+ColoneNum)>=(limitmaxUP-LineNum):#en bas
+        final = final+bomb(var+LineNum)
         
-        if (var+(ColoneNum-1))<=limitmaxUP and (var+(ColoneNum-1))>=(limitmaxUP-(ColoneNum-1)):#diagonale gauche bas
-            final = final+bomb(var+(ColoneNum-1))
+        if (var+(LineNum-1))<=limitmaxUP and (var+(LineNum-1))>=(limitmaxUP-(LineNum-1)):#diagonale gauche bas
+            final = final+bomb(var+(LineNum-1))
         
-        if (var+(ColoneNum+1))<=limitmaxUP and (var+(ColoneNum+1))>=(limitmaxUP-(ColoneNum-1)):#diagonale droite bas
-            final = final+bomb(var+(ColoneNum+1))
+        if (var+(LineNum+1))<=limitmaxUP and (var+(LineNum+1))>=(limitmaxUP-(LineNum-1)):#diagonale droite bas
+            final = final+bomb(var+(LineNum+1))
         
     return final
 
 def DisplayGUI(MOO):
     for w in range(ColoneNum):
-        Position=ColoneNum*w
+        Position=LineNum*w
         print(end="[")
         for v in range(LineNum):
             Position=Position+v
@@ -173,13 +179,13 @@ while STOP==0:
     print()
     YES=0
     while YES==0:
-        print("Please Type a COLUM number between 0 and ",(ColoneNum))
+        print("Please Type a COLUM number between 0 and ",(LineNum))
         ENTRYDos=int(input())
         print()
         print("Please Type a LINE number between 0 and ",(ColoneNum))
         ENTRYUno=int(input())
         
-        ENTRY=(ENTRYUno-1)*ColoneNum+(ENTRYDos-1)
+        ENTRY=(ENTRYUno-1)*LineNum+(ENTRYDos-1)
         
         if ENTRY > -1:
             if ENTRY <= (ColoneNum*LineNum):

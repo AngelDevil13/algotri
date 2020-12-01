@@ -39,17 +39,6 @@ while Colone.count(1)<1 or Colone.count(0)<1:
         Colone.clear()
 
 
-#-------------------Delete this when it's done v
-for z in range(ColoneNum):
-    variableNum=variableNum+LineNum
-    displayFULL.extend(Colone[staticNum:variableNum])
-    staticNum=variableNum
-    print(displayFULL)
-    displayFULL.clear()
-print("------------------------------------------")
-#-------------------Delete this when it's done ^
-
-
 def bomb(Loca):
     result = Colone[Loca]
     return result

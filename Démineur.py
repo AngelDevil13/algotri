@@ -38,6 +38,18 @@ while Colone.count(1)<1 or Colone.count(0)<1:
     if(Colone.count(1)<1 or Colone.count(0)<1):
         Colone.clear()
 
+
+#-------------------Delete this when it's done v
+for z in range(ColoneNum):
+    variableNum=variableNum+LineNum
+    displayFULL.extend(Colone[staticNum:variableNum])
+    staticNum=variableNum
+    print(displayFULL)
+    displayFULL.clear()
+print("------------------------------------------")
+#-------------------Delete this when it's done ^
+
+
 def bomb(Loca):
     result = Colone[Loca]
     return result
@@ -91,14 +103,17 @@ def proximity(var):
         
         
         
-    if (var+LineNum)<=limitmaxUP and (var+ColoneNum)>=(limitmaxUP-LineNum):#en bas
+    if (var+LineNum)<=limitmaxUP and (var+LineNum)>=(limitmaxUP-LineNum):#en bas
         final = final+bomb(var+LineNum)
+        print("EB")
         
         if (var+(LineNum-1))<=limitmaxUP and (var+(LineNum-1))>=(limitmaxUP-(LineNum-1)):#diagonale gauche bas
             final = final+bomb(var+(LineNum-1))
+            print("Dgb")
         
         if (var+(LineNum+1))<=limitmaxUP and (var+(LineNum+1))>=(limitmaxUP-(LineNum-1)):#diagonale droite bas
             final = final+bomb(var+(LineNum+1))
+            print("Ddb")
         
     return final
 
